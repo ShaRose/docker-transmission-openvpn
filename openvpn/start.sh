@@ -115,6 +115,13 @@ if [[ -n $MODIFY_CHOSEN_CONFIG ]]; then
   /etc/openvpn/modify-openvpn-config.sh "$CHOSEN_OPENVPN_CONFIG"
 fi
 
+# If openvpn-post-config.sh exists, run it
+if [[ -x /scripts/openvpn-post-config.sh ]]; then
+  echo "Executing /scripts/openvpn-post-config.sh"
+  /scripts/openvpn-post-config.sh "$CHOSEN_OPENVPN_CONFIG"
+  echo "/scripts/openvpn-post-config.sh returned $?"
+fi
+
 # add OpenVPN user/pass
 if [[ "${OPENVPN_USERNAME}" == "**None**" ]] || [[ "${OPENVPN_PASSWORD}" == "**None**" ]] ; then
   if [[ ! -f /config/openvpn-credentials.txt ]] ; then
